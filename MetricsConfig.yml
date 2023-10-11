@@ -1,0 +1,20 @@
+namespace: AWS/EC2
+dimension_name: InstanceId
+
+metrics:
+  - name: CPUUtilization
+    unit: Percent
+  - name: DiskReadOps
+    unit: Count
+  - name: DiskReadBytes
+    unit: Bytes
+  - name: DiskWriteBytes
+    unit: Bytes
+  - name: NetworkIn
+    unit: Bytes
+  - name: NetworkOut
+    unit: Bytes
+  - name: NetworkPacketsIn
+    unit: Count
+  - name: NetworkPacketsOut
+    unit: Count

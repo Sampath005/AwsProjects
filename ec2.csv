@@ -1,0 +1,2 @@
+Name,Instance,Image IdPublic IpType,Hypervisor,Virtualization Type,Architecture,EBS Optimized,CPUUtilization (Percent),DiskReadOps (Count),DiskReadBytes (Bytes),DiskWriteBytes (Bytes),NetworkIn (Bytes),NetworkOut (Bytes),NetworkPacketsIn (Count),NetworkPacketsOut (Count)
+Test-Machine,i-01885857ea4692bea,ami-024e6efaf93d85776,18.222.3.111,t2.micro,xen,hvm,x86_64,False,0.2,0.0,0.0,0.0,2966.5,2151.92,36.08,33.08
