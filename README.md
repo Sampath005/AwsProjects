@@ -29,4 +29,4 @@ PATCH: Update a resource with partial data.
 DELETE: Remove a resource or data.
 
 ## Architeture
-![Screenshot from 2023-10-30 15-40-28](https://github.com/Sampath005/AwsProjects/assets/97429122/531d1a18-4b44-4ced-a3d1-69e758a76a0b)
+![CRUD Operation Using ApiGateway+Lambda+Dynamodb](https://github.com/Sampath005/AwsProjects/assets/97429122/ac1a8784-37ba-4c86-9d60-2269a651133d)
