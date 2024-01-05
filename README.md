@@ -14,7 +14,7 @@ The architecture of the project involves the following components:
 - **Amazon EventBridge:** Manages events and event rules to trigger Lambda functions based on defined conditions.
 - **Amazon SNS:** Used for event notifications, allowing for timely alerts and communication.
 
-![Architecture Diagram](./docs/architecture-diagram.png)
+![Architecture Diagram](https://github.com/Sampath005/AwsProjects/blob/Project-4/Build%20and%20Automate%20Serveless%20datalake%20Using%20AWS%20Glue%2C%20Amazon%20S3%2C%20AWS%20Lambda%2C%20Amazon%20EventBridge%2C%20Amazon%20SNS.drawio%20(1).png))
 
 ## 3. How This Project Works
 
@@ -34,11 +34,11 @@ The project workflow can be summarized as follows:
 
 ## 4. Setup Instructions
 
-1. Lambda
-2. S3
-3. Sns
-4. EventBridge
-5. Glue
+1. [Lambda](https://github.com/Sampath005/AwsProjects/tree/Project-4/Lambda)
+2. [S3](https://github.com/Sampath005/AwsProjects/blob/Project-4/S3-Triggers_%26_Patterns.md)
+3. [Sns](https://github.com/Sampath005/AwsProjects/blob/Project-4/Sns-Policy.md)
+4. [EventBridge](https://github.com/Sampath005/AwsProjects/blob/Project-4/Event-Bridge-pattern.md)
+5. [Glue](https://github.com/Sampath005/AwsProjects/tree/Project-4/Glue)
 6. Athena: Just choose the Query result location
 
 ## Test
