@@ -14,7 +14,7 @@ The architecture of the project involves the following components:
 - **Amazon EventBridge:** Manages events and event rules to trigger Lambda functions based on defined conditions.
 - **Amazon SNS:** Used for event notifications, allowing for timely alerts and communication.
 
-![Architecture Diagram](https://github.com/Sampath005/AwsProjects/blob/Project-4/Build%20and%20Automate%20Serveless%20datalake%20Using%20AWS%20Glue%2C%20Amazon%20S3%2C%20AWS%20Lambda%2C%20Amazon%20EventBridge%2C%20Amazon%20SNS.drawio%20(1).png))
+![Architecture Diagram](https://github.com/Sampath005/AwsProjects/blob/Project-4/Build%20and%20Automate%20Serveless%20datalake%20Using%20AWS%20Glue%2C%20Amazon%20S3%2C%20AWS%20Lambda%2C%20Amazon%20EventBridge%2C%20Amazon%20SNS.drawio%20(1).png)
 
 ## 3. How This Project Works
 
