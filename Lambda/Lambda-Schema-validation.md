@@ -2,4 +2,15 @@
 
 1. AWSLambdaBasicExecutionRole
 2. S3 Full access
-Resource: Replace "arn:aws:s3:::your-s3-bucket-name/*"  
+
+
+## Lambda Layer
+
+    -- Create new directory 
+        `mkdir python` and `cd python`
+    -- Install dependency
+        `pip install pandas cerberus -t .'
+    -- zip the python folder
+    -- upload to the layer
+    -- Add the layer to the Lambda function
+
