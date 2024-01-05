@@ -1,0 +1,21 @@
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "SNS:Publish",
+      "Resource": "< SNS Resource ARN>",
+      "Condition": {
+        "ArnLike": {
+          "<S3 Resource ARN>"
+        }
+      }
+    }
+  ]
+}
+
+```
