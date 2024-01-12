@@ -1,0 +1,146 @@
+{
+  "Comment": "CSV Processing Workflow",
+  "StartAt": "ValidateInputCsv",
+  "States": {
+    "ValidateInputCsv": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:ap-south-1:472831976827:function:sam-schema-validation-delete",
+      "Next": "ValidationSuccess",
+      "ResultPath": "$.taskresult"
+    },
+    "ValidationSuccess": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.taskresult.Validation",
+          "StringEquals": "SUCCESS",
+          "Next": "StartCrawlerForRawFile"
+        },
+        {
+          "Variable": "$.taskresult.Validation",
+          "StringEquals": "FAILURE",
+          "Next": "ErrorNotification"
+        }
+      ]
+    },
+    "ErrorNotification": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::aws-sdk:sns:publish",
+      "Parameters": {
+        "Message.$": "$",
+        "TopicArn": "arn:aws:sns:ap-south-1:472831976827:sns-etl-work-flow"
+      },
+      "Next": "Fail"
+    },
+    "StartCrawlerForRawFile": {
+      "Type": "Task",
+      "ResultPath": "$.taskresult",
+      "ResultSelector": {
+        "cnt": "0",
+        "crawler_name": "StageSchemaCrawler"
+      },
+      "Resource": "arn:aws:lambda:ap-south-1:472831976827:function:Glue_Crawler_Trigger",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "CrawlerRunningException"
+          ],
+          "IntervalSeconds": 10,
+          "MaxAttempts": 10,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "CrawlerRunningException"
+          ],
+          "Comment": "Crawler is running for a long time",
+          "Next": "ErrorNotification"
+        },
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Comment": "Error fallback",
+          "ResultPath": "$.error-info",
+          "Next": "ErrorNotification"
+        }
+      ],
+      "Next": "RawFileCrawlerStatusCheck"
+    },
+    "RawFileCrawlerStatusCheck": {
+      "Type": "Task",
+      "InputPath": "$.taskresult",
+      "Resource": "arn:aws:lambda:ap-south-1:472831976827:function:check_crawler",
+      "Next": "RawFileCrawlerFinished?",
+      "ResultPath": "$.taskresult"
+    },
+    "RawFileCrawlerFinished?": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Or": [
+            {
+              "Variable": "$.taskresult.Status",
+              "StringEquals": "STOPPING"
+            },
+            {
+              "Variable": "$.taskresult.Status",
+              "StringEquals": "RUNNING"
+            }
+          ],
+          "Next": "RawFileCrawlerWait"
+        },
+        {
+          "Variable": "$.taskresult.Status",
+          "StringEquals": "READY",
+          "Next": "RunGlueJob"
+        },
+        {
+          "Variable": "$.taskresult.Status",
+          "StringEquals": "RETRYLIMITREACH",
+          "Next": "ErrorNotification"
+        },
+        {
+          "Variable": "$.taskresult.Status",
+          "StringEquals": "FAILED",
+          "Next": "ErrorNotification"
+        }
+      ],
+      "Default": "ErrorNotification"
+    },
+    "RawFileCrawlerWait": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "RawFileCrawlerStatusCheck"
+    },
+    "RunGlueJob": {
+      "Type": "Task",
+      "ResultPath": null,
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "CSV-to-Parquet"
+      },
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Comment": "Error fallback for Glue job",
+          "ResultPath": "$.error-info",
+          "Next": "ErrorNotification"
+        }
+      ],
+      "Next": "SuccessState"
+    },
+    "SuccessState": {
+      "Type": "Succeed"
+    },
+    "Fail": {
+      "Type": "Fail",
+      "Cause": "validation failed",
+      "Error": "ValidationError"
+    }
+  }
+}
